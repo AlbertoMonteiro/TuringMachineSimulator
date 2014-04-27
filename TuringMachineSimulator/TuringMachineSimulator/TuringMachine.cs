@@ -1,57 +1,133 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TuringMachineSimulator
 {
     public class TuringMachine : INotifyPropertyChanged
     {
-        public ObservableCollection<MachineState> States
+        public TuringMachine()
         {
-            get;
-            set;
+            states = new List<MachineState>();
         }
+
+        private MachineState finalState;
+        private MachineState initialState;
+        private IList<MachineState> states;
+        private string[] alphabet;
+        private string[] auxAlphabet;
+        private string[] tape;
+        private string initSymbol;
+        private string emptySymbol;
+
+        public IList<MachineState> States
+        {
+            get { return states; }
+            set
+            {
+                states = value;
+                OnPropertyChanged(t => t.States, t => t.Valid);
+            }
+        }
+
         public MachineState InitialState
         {
             get { return initialState; }
-            set { initialState = value; OnPropertyChanged(t => t.InitialState); }
+            set
+            {
+                initialState = value;
+                OnPropertyChanged(t => t.InitialState, t => t.Valid);
+            }
         }
+
         public MachineState FinalState
         {
             get { return finalState; }
-            set { finalState = value; OnPropertyChanged(t => t.InitialState); }
+            set
+            {
+                finalState = value;
+                OnPropertyChanged(t => t.FinalState, t => t.Valid);
+            }
         }
-        public string[] Tape
+
+        public string Tape
         {
-            get { return tape; }
-            set { tape = value; OnPropertyChanged(t => t.InitialState); }
+            get { return string.Join(",", tape ?? new[] { "" }); }
+            set
+            {
+                tape = !string.IsNullOrWhiteSpace(value) ? value.Split(',') : null;
+                OnPropertyChanged(t => t.Tape, t => t.Valid);
+            }
         }
-        public string[] Alphabet
+
+        public string Alphabet
         {
-            get { return alphabet; }
-            set { alphabet = value; OnPropertyChanged(t => t.InitialState); }
+            get { return string.Join(",", alphabet ?? new[] { "" }); }
+            set
+            {
+                alphabet = !string.IsNullOrWhiteSpace(value) ? value.Split(',') : null;
+                OnPropertyChanged(t => t.Alphabet, t => t.Valid);
+            }
         }
-        public string[] AuxAlphabet
+
+        public string AuxAlphabet
         {
-            get { return auxAlphabet; }
-            set { auxAlphabet = value; OnPropertyChanged(t => t.InitialState); }
+            get { return string.Join(",", auxAlphabet ?? new[] { "" }); }
+            set
+            {
+                auxAlphabet = value.Split(',');
+                OnPropertyChanged(t => t.AuxAlphabet, t => t.Valid);
+            }
+        }
+
+        public string InitSymbol
+        {
+            get { return initSymbol; }
+            set { initSymbol = value; OnPropertyChanged(t => t.InitSymbol, t => t.Valid); }
+        }
+
+        public string EmptySymbol
+        {
+            get { return emptySymbol; }
+            set { emptySymbol = value; OnPropertyChanged(t => t.EmptySymbol, t => t.Valid); }
+        }
+
+        public bool Valid
+        {
+            get
+            {
+                return alphabet != null &&
+                       auxAlphabet != null &&
+                       tape != null &&
+                       states.Any() &&
+                       initialState != null &&
+                       finalState != null &&
+                       !initialState.Equals(finalState) &&
+                       tape.Any() &&
+                       alphabet.Any() &&
+                       auxAlphabet.Any() &&
+                       !string.IsNullOrWhiteSpace(initSymbol) &&
+                       !string.IsNullOrWhiteSpace(emptySymbol);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private MachineState initialState;
-        private MachineState finalState;
-        private string[] tape;
-        private string[] alphabet;
-        private string[] auxAlphabet;
 
-        public void OnPropertyChanged(Expression<Func<TuringMachine, object>> property)
+        public void OnPropertyChanged(params Expression<Func<TuringMachine, object>>[] propertys)
         {
-            PropertyChanged(this, new PropertyChangedEventArgs(""));
+            foreach (var property in propertys)
+            {
+                var methodCallExpression = property.Body as UnaryExpression;
+                MemberExpression memberExpression;
+                if (methodCallExpression != null)
+                    memberExpression = methodCallExpression.Operand.Reduce() as MemberExpression;
+                else
+                    memberExpression = property.Body as MemberExpression;
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs(memberExpression.Member.Name));
+            }
         }
     }
 }

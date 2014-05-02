@@ -21,6 +21,7 @@ namespace TuringMachineSimulator
         private string[] tape;
         private string initSymbol;
         private string emptySymbol;
+        private string transitions;
 
         public IList<MachineState> States
         {
@@ -92,6 +93,47 @@ namespace TuringMachineSimulator
         {
             get { return emptySymbol; }
             set { emptySymbol = value; OnPropertyChanged(t => t.EmptySymbol, t => t.Valid); }
+        }
+
+        public string Transitions
+        {
+            get
+            {
+                var values = states.SelectMany(s => s.Transitions, TranstionToString);
+                return string.Join(Environment.NewLine, values);
+            }
+            set
+            {
+                foreach (var machineState in states)
+                    machineState.Transitions.Clear();
+                foreach (var transition in value.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    var config = transition.Split(',');
+
+                    if (config.Length == 5)
+                    {
+                        var fromState = States.Single(s => s.Name == config[0]);
+                        var toState = States.Single(s => s.Name == config[1]);
+                        fromState.Transitions.Add(new MachineTransition
+                        {
+                            TargetState = toState,
+                            SymbolRead = config[2],
+                            SymbolWrite = config[3],
+                            Direction = config[4] == "D" ? Direction.Right : Direction.Left
+                        });
+
+                    }
+                }
+                OnPropertyChanged(t => t.AuxAlphabet, t => t.Valid);
+            }
+        }
+
+        private static string TranstionToString(MachineState state, MachineTransition transition)
+        {
+            const string formato = "{0},{1},{2},{3},{4}";
+
+            return string.Format(formato, state.Name, transition.TargetState.Name, transition.SymbolRead,
+                transition.SymbolWrite, transition.Direction);
         }
 
         public bool Valid

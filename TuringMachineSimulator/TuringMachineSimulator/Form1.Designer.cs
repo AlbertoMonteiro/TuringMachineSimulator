@@ -47,38 +47,38 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btnDefinirTransicoes = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.txtTransições = new System.Windows.Forms.TextBox();
+            this.lvTape = new System.Windows.Forms.ListView();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 27);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(4, 18);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(237, 20);
+            this.label1.Size = new System.Drawing.Size(158, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Estados: (separados por virgula)";
             // 
             // txtEstados
             // 
-            this.txtEstados.Location = new System.Drawing.Point(7, 52);
-            this.txtEstados.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtEstados.Location = new System.Drawing.Point(4, 34);
             this.txtEstados.Name = "txtEstados";
-            this.txtEstados.Size = new System.Drawing.Size(269, 26);
+            this.txtEstados.Size = new System.Drawing.Size(181, 20);
             this.txtEstados.TabIndex = 1;
             this.txtEstados.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtEstados_KeyUp);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 83);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(4, 54);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(106, 20);
+            this.label2.Size = new System.Drawing.Size(72, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Estado inicial:";
             // 
@@ -87,19 +87,17 @@
             this.cbEstadoInicial.DisplayMember = "Name";
             this.cbEstadoInicial.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbEstadoInicial.FormattingEnabled = true;
-            this.cbEstadoInicial.Location = new System.Drawing.Point(7, 108);
-            this.cbEstadoInicial.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbEstadoInicial.Location = new System.Drawing.Point(4, 70);
             this.cbEstadoInicial.Name = "cbEstadoInicial";
-            this.cbEstadoInicial.Size = new System.Drawing.Size(269, 28);
+            this.cbEstadoInicial.Size = new System.Drawing.Size(181, 21);
             this.cbEstadoInicial.TabIndex = 2;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 141);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(4, 92);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(97, 20);
+            this.label3.Size = new System.Drawing.Size(65, 13);
             this.label3.TabIndex = 4;
             this.label3.Text = "Estado final:";
             // 
@@ -108,95 +106,96 @@
             this.cbEstadoFinal.DisplayMember = "Name";
             this.cbEstadoFinal.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbEstadoFinal.FormattingEnabled = true;
-            this.cbEstadoFinal.Location = new System.Drawing.Point(7, 166);
-            this.cbEstadoFinal.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbEstadoFinal.Location = new System.Drawing.Point(4, 108);
             this.cbEstadoFinal.Name = "cbEstadoFinal";
-            this.cbEstadoFinal.Size = new System.Drawing.Size(269, 28);
+            this.cbEstadoFinal.Size = new System.Drawing.Size(181, 21);
             this.cbEstadoFinal.TabIndex = 3;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 22);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(4, 15);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(131, 20);
+            this.label4.Size = new System.Drawing.Size(89, 13);
             this.label4.TabIndex = 6;
             this.label4.Text = "Simbolo de inicio:";
             // 
             // txtSimboloInicio
             // 
-            this.txtSimboloInicio.Location = new System.Drawing.Point(7, 48);
-            this.txtSimboloInicio.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtSimboloInicio.Location = new System.Drawing.Point(4, 31);
             this.txtSimboloInicio.Name = "txtSimboloInicio";
-            this.txtSimboloInicio.Size = new System.Drawing.Size(265, 26);
+            this.txtSimboloInicio.Size = new System.Drawing.Size(178, 20);
             this.txtSimboloInicio.TabIndex = 6;
             this.txtSimboloInicio.Text = "•";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(7, 80);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Location = new System.Drawing.Point(4, 52);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(132, 20);
+            this.label5.Size = new System.Drawing.Size(90, 13);
             this.label5.TabIndex = 8;
             this.label5.Text = "Simbolo de vazio:";
             // 
             // txtSimboloVazio
             // 
-            this.txtSimboloVazio.Location = new System.Drawing.Point(7, 106);
-            this.txtSimboloVazio.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtSimboloVazio.Location = new System.Drawing.Point(4, 69);
             this.txtSimboloVazio.Name = "txtSimboloVazio";
-            this.txtSimboloVazio.Size = new System.Drawing.Size(265, 26);
+            this.txtSimboloVazio.Size = new System.Drawing.Size(178, 20);
             this.txtSimboloVazio.TabIndex = 7;
             this.txtSimboloVazio.Text = "β";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 22);
+            this.label6.Location = new System.Drawing.Point(4, 15);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(230, 20);
+            this.label6.Size = new System.Drawing.Size(154, 13);
             this.label6.TabIndex = 10;
             this.label6.Text = "Alfabeto: (separado por virgula)";
             // 
             // txtAlfabeto
             // 
-            this.txtAlfabeto.Location = new System.Drawing.Point(6, 48);
+            this.txtAlfabeto.Location = new System.Drawing.Point(4, 31);
+            this.txtAlfabeto.Margin = new System.Windows.Forms.Padding(2);
             this.txtAlfabeto.Name = "txtAlfabeto";
-            this.txtAlfabeto.Size = new System.Drawing.Size(265, 26);
+            this.txtAlfabeto.Size = new System.Drawing.Size(178, 20);
             this.txtAlfabeto.TabIndex = 4;
             // 
             // txtAuxAlfabeto
             // 
-            this.txtAuxAlfabeto.Location = new System.Drawing.Point(6, 106);
+            this.txtAuxAlfabeto.Location = new System.Drawing.Point(4, 69);
+            this.txtAuxAlfabeto.Margin = new System.Windows.Forms.Padding(2);
             this.txtAuxAlfabeto.Name = "txtAuxAlfabeto";
-            this.txtAuxAlfabeto.Size = new System.Drawing.Size(265, 26);
+            this.txtAuxAlfabeto.Size = new System.Drawing.Size(178, 20);
             this.txtAuxAlfabeto.TabIndex = 5;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 80);
+            this.label7.Location = new System.Drawing.Point(4, 52);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(265, 20);
+            this.label7.Size = new System.Drawing.Size(178, 13);
             this.label7.TabIndex = 12;
             this.label7.Text = "Aux. Alfabeto: (separado por virgula)";
             // 
             // txtFita
             // 
-            this.txtFita.Location = new System.Drawing.Point(7, 224);
+            this.txtFita.Location = new System.Drawing.Point(4, 145);
+            this.txtFita.Margin = new System.Windows.Forms.Padding(2);
             this.txtFita.Name = "txtFita";
-            this.txtFita.Size = new System.Drawing.Size(269, 26);
+            this.txtFita.Size = new System.Drawing.Size(181, 20);
             this.txtFita.TabIndex = 8;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(7, 199);
+            this.label8.Location = new System.Drawing.Point(4, 129);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(197, 20);
+            this.label8.Size = new System.Drawing.Size(132, 13);
             this.label8.TabIndex = 14;
             this.label8.Text = "Fita: (separado por virgula)";
             // 
@@ -210,9 +209,11 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.cbEstadoFinal);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(8, 8);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(283, 295);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox1.Size = new System.Drawing.Size(189, 192);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Estados";
@@ -223,9 +224,11 @@
             this.groupBox2.Controls.Add(this.txtSimboloInicio);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.txtSimboloVazio);
-            this.groupBox2.Location = new System.Drawing.Point(301, 12);
+            this.groupBox2.Location = new System.Drawing.Point(201, 8);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(286, 144);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox2.Size = new System.Drawing.Size(190, 93);
             this.groupBox2.TabIndex = 17;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Simbolos";
@@ -236,35 +239,62 @@
             this.groupBox3.Controls.Add(this.txtAlfabeto);
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.txtAuxAlfabeto);
-            this.groupBox3.Location = new System.Drawing.Point(301, 162);
+            this.groupBox3.Location = new System.Drawing.Point(201, 106);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(286, 145);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox3.Size = new System.Drawing.Size(190, 94);
             this.groupBox3.TabIndex = 18;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Alfabeto";
             // 
-            // btnDefinirTransicoes
+            // groupBox4
             // 
-            this.btnDefinirTransicoes.AutoSize = true;
-            this.btnDefinirTransicoes.Location = new System.Drawing.Point(230, 317);
-            this.btnDefinirTransicoes.Name = "btnDefinirTransicoes";
-            this.btnDefinirTransicoes.Size = new System.Drawing.Size(142, 34);
-            this.btnDefinirTransicoes.TabIndex = 19;
-            this.btnDefinirTransicoes.Text = "Definir transições";
-            this.btnDefinirTransicoes.UseVisualStyleBackColor = true;
+            this.groupBox4.Controls.Add(this.txtTransições);
+            this.groupBox4.Location = new System.Drawing.Point(395, 8);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox4.Size = new System.Drawing.Size(216, 192);
+            this.groupBox4.TabIndex = 20;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Transições (separado por linha)";
+            // 
+            // txtTransições
+            // 
+            this.txtTransições.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtTransições.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTransições.Location = new System.Drawing.Point(2, 15);
+            this.txtTransições.Margin = new System.Windows.Forms.Padding(2);
+            this.txtTransições.Multiline = true;
+            this.txtTransições.Name = "txtTransições";
+            this.txtTransições.Size = new System.Drawing.Size(212, 175);
+            this.txtTransições.TabIndex = 0;
+            // 
+            // lvTape
+            // 
+            this.lvTape.GridLines = true;
+            this.lvTape.Location = new System.Drawing.Point(15, 224);
+            this.lvTape.MultiSelect = false;
+            this.lvTape.Name = "lvTape";
+            this.lvTape.ShowGroups = false;
+            this.lvTape.Size = new System.Drawing.Size(594, 30);
+            this.lvTape.TabIndex = 22;
+            this.lvTape.UseCompatibleStateImageBehavior = false;
+            this.lvTape.View = System.Windows.Forms.View.List;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(602, 362);
-            this.Controls.Add(this.btnDefinirTransicoes);
+            this.ClientSize = new System.Drawing.Size(620, 285);
+            this.Controls.Add(this.lvTape);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Turing Machine Simulator";
@@ -274,8 +304,9 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -300,7 +331,9 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Button btnDefinirTransicoes;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.TextBox txtTransições;
+        private System.Windows.Forms.ListView lvTape;
     }
 }
 

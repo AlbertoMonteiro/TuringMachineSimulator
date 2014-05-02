@@ -7,6 +7,10 @@ namespace TuringMachineSimulator
 {
     public class MachineState
     {
+        public MachineState()
+        {
+            Transitions = new List<MachineTransition>();
+        }
         public string Name { get; set; }
         public IList<MachineTransition> Transitions { get; set; }
 

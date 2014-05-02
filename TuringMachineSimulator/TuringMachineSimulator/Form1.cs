@@ -20,6 +20,7 @@ namespace TuringMachineSimulator
             turingMachine = new TuringMachine();
             Load += (obj, sender) =>
             {
+                turingMachine.PropertyChanged += TuringMachineOnPropertyChanged;
                 turingMachine.InitSymbol = txtSimboloInicio.Text;
                 turingMachine.EmptySymbol = txtSimboloVazio.Text;
                 const string selecteditem = "SelectedItem";
@@ -31,8 +32,22 @@ namespace TuringMachineSimulator
                 AddBinding(txtAlfabeto, text, "Alphabet");
                 AddBinding(txtAuxAlfabeto, text, "AuxAlphabet");
                 AddBinding(txtFita, text, "Tape");
-                AddBinding(btnDefinirTransicoes, "Enabled", "Valid");
+                AddBinding(txtTransições, "Enabled", "Valid");
+                AddBinding(txtTransições, text, "Transitions");
             };
+        }
+
+        private void TuringMachineOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            if (propertyChangedEventArgs.PropertyName == "Tape")
+            {
+                lvTape.Items.Clear();
+                lvTape.Items.Add(turingMachine.InitSymbol);
+                foreach (var s in turingMachine.Tape.Split(','))
+                    lvTape.Items.Add(s);
+                for (int i = 0; i < 50; i++)
+                    lvTape.Items.Add(turingMachine.EmptySymbol);
+            }
         }
 
         private void AddBinding(Control control, string propertyName, string dataMember)

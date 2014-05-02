@@ -1,0 +1,76 @@
+﻿<Window x:Class="TuringMachineWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525" DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Column="0" Header="Estados">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Estados"/>
+                <TextBox Grid.Row="1" Text="{Binding States, Converter={StaticResource StringToMachineStateConverter}}"></TextBox>
+                <TextBlock Text="Estado Inicial" Grid.Row="2"/>
+                <ComboBox Grid.Row="3" ItemsSource="{Binding States}" SelectedItem="{Binding InitialState}" DisplayMemberPath="Name"></ComboBox>
+                <TextBlock Text="Estado Final" Grid.Row="4"/>
+                <ComboBox Grid.Row="5" ItemsSource="{Binding States}" SelectedItem="{Binding FinalState}" DisplayMemberPath="Name"></ComboBox>
+                <TextBlock Text="Fita" Grid.Row="6" />
+                <TextBox Grid.Row="7" Text="{Binding Tape, Converter={StaticResource StringToStringArray}}"></TextBox>
+            </Grid>
+        </GroupBox>
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <GroupBox Grid.Row="0" Header="Simbolos" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Simbolo inicial"/>
+                    <TextBox Grid.Row="1" Text="{Binding InitSymbol}"></TextBox>
+                    <TextBlock Text="Simbolo final" Grid.Row="2"/>
+                    <TextBox Grid.Row="3" Text="{Binding EmptySymbol}"></TextBox>
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Row="1" Header="Alfabeto">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Alfabeto"/>
+                    <TextBox Grid.Row="1" Text="{Binding Alphabet, Converter={StaticResource StringToStringArray}}"></TextBox>
+                    <TextBlock Text="Alfabeto auxiliar" Grid.Row="2"/>
+                    <TextBox Grid.Row="3" Text="{Binding AuxAlphabet, Converter={StaticResource StringToStringArray}}"></TextBox>
+                </Grid>
+            </GroupBox>
+        </Grid>
+        <GroupBox Grid.Row="0" Grid.Column="2" Header="Transições">
+            <TextBox Text="{Binding Transitions}"/>
+        </GroupBox>
+
+    </Grid>
+</Window>

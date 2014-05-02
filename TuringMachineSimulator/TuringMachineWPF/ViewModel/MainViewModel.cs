@@ -1,17 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
+using GalaSoft.MvvmLight;
 
-namespace TuringMachineSimulator
+namespace TuringMachineWPF.ViewModel
 {
-    public class TuringMachine : INotifyPropertyChanged
+    /// <summary>
+    /// This class contains properties that the main View can data bind to.
+    /// <para>
+    /// Use the <strong>mvvminpc</strong> snippet to add bindable properties to this ViewModel.
+    /// </para>
+    /// <para>
+    /// You can also use Blend to data bind with the tool's support.
+    /// </para>
+    /// <para>
+    /// See http://www.galasoft.ch/mvvm
+    /// </para>
+    /// </summary>
+    public class MainViewModel : ViewModelBase
     {
-        public TuringMachine()
+        /// <summary>
+        /// Initializes a new instance of the MainViewModel class.
+        /// </summary>
+        public MainViewModel()
         {
             states = new List<MachineState>();
+            initSymbol = "•";
+            emptySymbol = "β";
+
+            if (IsInDesignMode)
+            {
+                // Code runs in Blend --> create design time data.
+            }
+            else
+            {
+                // Code runs "for real"
+            }
         }
+
 
         private MachineState finalState;
         private MachineState initialState;
@@ -29,7 +56,8 @@ namespace TuringMachineSimulator
             set
             {
                 states = value;
-                OnPropertyChanged(t => t.States, t => t.Valid);
+                RaisePropertyChanged(t => t.States);
+                RaisePropertyChanged(t => t.Valid);
             }
         }
 
@@ -39,7 +67,7 @@ namespace TuringMachineSimulator
             set
             {
                 initialState = value;
-                OnPropertyChanged(t => t.InitialState, t => t.Valid);
+                RaisePropertyChanged(t => t.InitialState, t => t.Valid);
             }
         }
 
@@ -49,50 +77,50 @@ namespace TuringMachineSimulator
             set
             {
                 finalState = value;
-                OnPropertyChanged(t => t.FinalState, t => t.Valid);
+                RaisePropertyChanged(t => t.FinalState, t => t.Valid);
             }
         }
 
-        public string Tape
+        public string[] Tape
         {
-            get { return string.Join(",", tape ?? new[] { "" }); }
+            get { return tape; }
             set
             {
-                tape = !string.IsNullOrWhiteSpace(value) ? value.Split(',') : null;
-                OnPropertyChanged(t => t.Tape, t => t.Valid);
+                tape = value;
+                RaisePropertyChanged(t => t.Tape, t => t.Valid);
             }
         }
 
-        public string Alphabet
+        public string[] Alphabet
         {
-            get { return string.Join(",", alphabet ?? new[] { "" }); }
+            get { return alphabet; }
             set
             {
-                alphabet = !string.IsNullOrWhiteSpace(value) ? value.Split(',') : null;
-                OnPropertyChanged(t => t.Alphabet, t => t.Valid);
+                alphabet = value;
+                RaisePropertyChanged(t => t.Alphabet, t => t.Valid);
             }
         }
 
-        public string AuxAlphabet
+        public string[] AuxAlphabet
         {
-            get { return string.Join(",", auxAlphabet ?? new[] { "" }); }
+            get { return auxAlphabet; }
             set
             {
-                auxAlphabet = value.Split(',');
-                OnPropertyChanged(t => t.AuxAlphabet, t => t.Valid);
+                auxAlphabet = value;
+                RaisePropertyChanged(t => t.AuxAlphabet, t => t.Valid);
             }
         }
 
         public string InitSymbol
         {
             get { return initSymbol; }
-            set { initSymbol = value; OnPropertyChanged(t => t.InitSymbol, t => t.Valid); }
+            set { initSymbol = value; RaisePropertyChanged(t => t.InitSymbol, t => t.Valid); }
         }
 
         public string EmptySymbol
         {
             get { return emptySymbol; }
-            set { emptySymbol = value; OnPropertyChanged(t => t.EmptySymbol, t => t.Valid); }
+            set { emptySymbol = value; RaisePropertyChanged(t => t.EmptySymbol, t => t.Valid); }
         }
 
         public string Transitions
@@ -124,7 +152,7 @@ namespace TuringMachineSimulator
 
                     }
                 }
-                OnPropertyChanged(t => t.AuxAlphabet, t => t.Valid);
+                RaisePropertyChanged(t => t.AuxAlphabet, t => t.Valid);
             }
         }
 
@@ -155,9 +183,7 @@ namespace TuringMachineSimulator
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged(params Expression<Func<TuringMachine, object>>[] propertys)
+        public void RaisePropertyChanged(params Expression<Func<MainViewModel, object>>[] propertys)
         {
             foreach (var property in propertys)
             {
@@ -167,9 +193,9 @@ namespace TuringMachineSimulator
                     memberExpression = methodCallExpression.Operand.Reduce() as MemberExpression;
                 else
                     memberExpression = property.Body as MemberExpression;
-                if (PropertyChanged != null)
-                    PropertyChanged(this, new PropertyChangedEventArgs(memberExpression.Member.Name));
+                RaisePropertyChanged(memberExpression.Member.Name);
             }
         }
+
     }
 }

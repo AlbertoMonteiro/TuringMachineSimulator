@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.label1 = new System.Windows.Forms.Label();
             this.txtEstados = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -49,7 +51,8 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.txtTransições = new System.Windows.Forms.TextBox();
-            this.lvTape = new System.Windows.Forms.ListView();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -271,17 +274,30 @@
             this.txtTransições.Size = new System.Drawing.Size(212, 175);
             this.txtTransições.TabIndex = 0;
             // 
-            // lvTape
+            // imageList1
             // 
-            this.lvTape.GridLines = true;
-            this.lvTape.Location = new System.Drawing.Point(15, 224);
-            this.lvTape.MultiSelect = false;
-            this.lvTape.Name = "lvTape";
-            this.lvTape.ShowGroups = false;
-            this.lvTape.Size = new System.Drawing.Size(594, 30);
-            this.lvTape.TabIndex = 22;
-            this.lvTape.UseCompatibleStateImageBehavior = false;
-            this.lvTape.View = System.Windows.Forms.View.List;
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "Beta");
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.HorizontalExtent = 1;
+            this.listBox1.HorizontalScrollbar = true;
+            this.listBox1.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"});
+            this.listBox1.Location = new System.Drawing.Point(15, 217);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(593, 56);
+            this.listBox1.TabIndex = 21;
             // 
             // Form1
             // 
@@ -289,7 +305,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(620, 285);
-            this.Controls.Add(this.lvTape);
+            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -333,7 +349,8 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TextBox txtTransições;
-        private System.Windows.Forms.ListView lvTape;
+        private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
 

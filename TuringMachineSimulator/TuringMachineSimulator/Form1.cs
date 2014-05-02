@@ -41,13 +41,30 @@ namespace TuringMachineSimulator
         {
             if (propertyChangedEventArgs.PropertyName == "Tape")
             {
-                lvTape.Items.Clear();
-                lvTape.Items.Add(turingMachine.InitSymbol);
+                imageList1.Images.Clear();
+                //lvTape.Items.Clear();
+
+                imageList1.Images.Add(turingMachine.InitSymbol, CreateImage(turingMachine.InitSymbol));
+                //lvTape.Items.Add(new ListViewItem { ImageKey = turingMachine.InitSymbol });
                 foreach (var s in turingMachine.Tape.Split(','))
-                    lvTape.Items.Add(s);
+                {
+                    imageList1.Images.Add(s, CreateImage(s));
+                    //lvTape.Items.Add(new ListViewItem { ImageKey = s });
+                }
                 for (int i = 0; i < 50; i++)
-                    lvTape.Items.Add(turingMachine.EmptySymbol);
+                {
+                    imageList1.Images.Add(turingMachine.EmptySymbol, CreateImage(turingMachine.EmptySymbol));
+                    //lvTape.Items.Add(new ListViewItem { ImageKey = turingMachine.EmptySymbol });
+                }
             }
+        }
+
+        private Bitmap CreateImage(string initSymbol)
+        {
+            var image = new Bitmap(32, 32);
+            var graphics = Graphics.FromImage(image);
+            graphics.DrawString(initSymbol, new Font(new FontFamily("Calibri"),14), Brushes.Black, 0, 0);
+            return image;
         }
 
         private void AddBinding(Control control, string propertyName, string dataMember)

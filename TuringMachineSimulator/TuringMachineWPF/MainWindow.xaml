@@ -1,7 +1,7 @@
 ﻿<Window x:Class="TuringMachineWPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525" DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
+        Title="MainWindow" Height="396.694" Width="877.458" DataContext="{Binding Source={StaticResource Locator}, Path=Main}" FontSize="18">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -9,6 +9,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
@@ -71,6 +72,16 @@
         <GroupBox Grid.Row="0" Grid.Column="2" Header="Transições">
             <TextBox Text="{Binding Transitions}"/>
         </GroupBox>
-
+        <StackPanel Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5">
+            <Button Content="Executar tudo" IsEnabled="{Binding Valid, Mode=OneWay}" Margin="5,0"/>
+            <Button Content="Executar passo a passo" IsEnabled="{Binding Valid, Mode=OneWay}" Margin="5,0"/>
+        </StackPanel>
+        <ListBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding CurrentTape}" SelectedItem="{Binding CurrentTapeSelectionIndex}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel IsItemsHost="True" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
     </Grid>
 </Window>

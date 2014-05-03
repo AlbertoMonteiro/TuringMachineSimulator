@@ -6,32 +6,21 @@ using GalaSoft.MvvmLight;
 
 namespace TuringMachineWPF.ViewModel
 {
-    /// <summary>
-    /// This class contains properties that the main View can data bind to.
-    /// <para>
-    /// Use the <strong>mvvminpc</strong> snippet to add bindable properties to this ViewModel.
-    /// </para>
-    /// <para>
-    /// You can also use Blend to data bind with the tool's support.
-    /// </para>
-    /// <para>
-    /// See http://www.galasoft.ch/mvvm
-    /// </para>
-    /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        /// <summary>
-        /// Initializes a new instance of the MainViewModel class.
-        /// </summary>
         public MainViewModel()
         {
-            states = new List<MachineState>();
+            states = new List<MachineState> { new MachineState { Name = "q0" } };
             initSymbol = "•";
             emptySymbol = "β";
+            finalState = initialState = states.First();
 
             if (IsInDesignMode)
             {
                 // Code runs in Blend --> create design time data.
+                tape = new[] { "a", "a", "a", "b", "b", "b" };
+                alphabet = new[] { "a", "b" };
+                auxAlphabet = new[] { "A", "B" };
             }
             else
             {
@@ -39,16 +28,17 @@ namespace TuringMachineWPF.ViewModel
             }
         }
 
-
         private MachineState finalState;
         private MachineState initialState;
         private IList<MachineState> states;
         private string[] alphabet;
         private string[] auxAlphabet;
         private string[] tape;
+        private string[] currentTape;
         private string initSymbol;
         private string emptySymbol;
         private string transitions;
+        private string currentTapeSelectionIndex;
 
         public IList<MachineState> States
         {
@@ -81,13 +71,27 @@ namespace TuringMachineWPF.ViewModel
             }
         }
 
+        public string[] CurrentTape
+        {
+            get { return currentTape; }
+            set
+            {
+                currentTape = value; 
+                RaisePropertyChanged(model => model.CurrentTape);
+            }
+        }
+
         public string[] Tape
         {
             get { return tape; }
             set
             {
                 tape = value;
-                RaisePropertyChanged(t => t.Tape, t => t.Valid);
+                var strs = new List<string>{initSymbol};
+                strs.AddRange(tape);
+                strs.AddRange(Enumerable.Range(1, 50).Select(i => emptySymbol));
+                currentTape = strs.ToArray();
+                RaisePropertyChanged(t => t.Tape, t => t.Valid, t => t.CurrentTape);
             }
         }
 
@@ -180,6 +184,16 @@ namespace TuringMachineWPF.ViewModel
                        auxAlphabet.Any() &&
                        !string.IsNullOrWhiteSpace(initSymbol) &&
                        !string.IsNullOrWhiteSpace(emptySymbol);
+            }
+        }
+
+        public string CurrentTapeSelectionIndex
+        {
+            get { return currentTapeSelectionIndex; }
+            set
+            {
+                currentTapeSelectionIndex = value;
+                RaisePropertyChanged(t => t.CurrentTapeSelectionIndex);
             }
         }
 

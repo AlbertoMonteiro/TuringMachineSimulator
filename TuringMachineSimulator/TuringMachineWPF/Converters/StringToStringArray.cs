@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace TuringMachineWPF
+namespace TuringMachineWPF.Converters
 {
     public class StringToStringArray : IValueConverter
     {

@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
 
-namespace TuringMachineWPF
+namespace TuringMachineWPF.Converters
 {
     public class StringToMachineStateConverter : IValueConverter
     {

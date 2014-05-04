@@ -66,11 +66,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\StringToMachineStateConverter.cs" />
+    <Compile Include="Converters\StringToStringArray.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="MachineState.cs" />
     <Compile Include="MachineTransition.cs" />
-    <Compile Include="StringToMachineStateConverter.cs" />
-    <Compile Include="StringToStringArray.cs" />
     <Compile Include="TuringMachine.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />

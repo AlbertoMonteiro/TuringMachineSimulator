@@ -12,7 +12,7 @@ namespace TuringMachineWPF.ViewModel
     {
         public MainViewModel()
         {
-            states = new List<MachineState> { new MachineState { Name = "q0" } };
+            states = new List<MachineState> {new MachineState {Name = "q0"}};
             currentTape = new ObservableCollection<string>();
             initSymbol = "•";
             emptySymbol = "β";
@@ -21,9 +21,9 @@ namespace TuringMachineWPF.ViewModel
             //if (IsInDesignMode)
             {
                 // Code runs in Blend --> create design time data.
-                Tape = new[] { "a", "a", "a", "b", "b", "b" };
-                Alphabet = new[] { "a", "b" };
-                AuxAlphabet = new[] { "A", "B" };
+                Tape = new[] {"a", "a", "a", "b", "b", "b"};
+                Alphabet = new[] {"a", "b"};
+                AuxAlphabet = new[] {"A", "B"};
                 //CurrentTapeSelectionIndex = 1;
                 //CurrentTape = new ObservableCollection<string>(tape);
             }
@@ -31,43 +31,20 @@ namespace TuringMachineWPF.ViewModel
             OnRunStepByStep = new RelayCommand(RunStepByStep);
         }
 
-        private void RunStepByStep()
+        public bool? WordAccepted
         {
-            var tapeSelectionIndex = CurrentTapeSelectionIndex;
-            var currentSymbol = CurrentTape[tapeSelectionIndex];
-            var machineTransition = CurrentState.Transitions.FirstOrDefault(t => t.SymbolRead == currentSymbol);
-            if (machineTransition != null)
+            get { return wordAccepted; }
+            set
             {
-                CurrentTape[CurrentTapeSelectionIndex] = machineTransition.SymbolWrite;
-                CurrentTapeSelectionIndex = tapeSelectionIndex + (int)machineTransition.Direction;
-                CurrentState = machineTransition.TargetState;
-            }
-            else
-            {
-                throw new NotImplementedException();
+                wordAccepted = value;
+                RaisePropertyChanged(t => t.WordAccepted, t => t.WordAcceptedMessage, t => t.Valid);
             }
         }
 
-        private void RunAll()
+        public string WordAcceptedMessage
         {
-            throw new NotImplementedException();
+            get { return WordAccepted.HasValue && WordAccepted.Value ? "Palavra aceita" : "Palavra não aceita"; }
         }
-
-        #region Fields
-
-        private string[] alphabet;
-        private string[] auxAlphabet;
-        private ObservableCollection<string> currentTape;
-        private int currentTapeSelectionIndex;
-        private string emptySymbol;
-        private MachineState finalState;
-        private string initSymbol;
-        private MachineState initialState;
-        private IList<MachineState> states;
-        private string[] tape;
-        private string transitions;
-
-        #endregion
 
         public IList<MachineState> States
         {
@@ -86,7 +63,7 @@ namespace TuringMachineWPF.ViewModel
             set
             {
                 CurrentState = initialState = value;
-                RaisePropertyChanged(t => t.InitialState, t => t.Valid);
+                RaisePropertyChanged(t => t.InitialState, model => model.CurrentState, t => t.Valid);
             }
         }
 
@@ -116,10 +93,11 @@ namespace TuringMachineWPF.ViewModel
             set
             {
                 tape = value;
-                var strs = new List<string> { initSymbol };
+                currentTape.Clear();
+                var strs = new List<string> {initSymbol};
                 strs.AddRange(tape);
                 strs.AddRange(Enumerable.Range(1, 50).Select(i => emptySymbol));
-                foreach (var str in strs)
+                foreach (string str in strs)
                     currentTape.Add(str);
                 RaisePropertyChanged(t => t.Tape, t => t.Valid, t => t.CurrentTape);
             }
@@ -169,23 +147,23 @@ namespace TuringMachineWPF.ViewModel
         {
             get
             {
-                var values = states.SelectMany(s => s.Transitions, TranstionToString);
+                IEnumerable<string> values = states.SelectMany(s => s.Transitions, TranstionToString);
                 return string.Join(Environment.NewLine, values);
             }
             set
             {
-                foreach (var machineState in states)
+                foreach (MachineState machineState in states)
                     machineState.Transitions.Clear();
 
-                var strings = value.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (var transition in strings)
+                string[] strings = value.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string transition in strings)
                 {
-                    var transitionParts = transition.Split(',');
+                    string[] transitionParts = transition.Split(',');
 
                     if (transitionParts.Length != 5) continue;
 
-                    var fromState = States.Single(s => s.Name == transitionParts[0]);
-                    var toState = States.Single(s => s.Name == transitionParts[1]);
+                    MachineState fromState = States.Single(s => s.Name == transitionParts[0]);
+                    MachineState toState = States.Single(s => s.Name == transitionParts[1]);
                     fromState.Transitions.Add(new MachineTransition
                     {
                         TargetState = toState,
@@ -202,7 +180,8 @@ namespace TuringMachineWPF.ViewModel
         {
             get
             {
-                return alphabet != null &&
+                return !WordAccepted.HasValue &&
+                       alphabet != null &&
                        auxAlphabet != null &&
                        tape != null &&
                        states.Any() &&
@@ -227,16 +206,53 @@ namespace TuringMachineWPF.ViewModel
             }
         }
 
-        public MachineState CurrentState { get; set; }
+        public MachineState CurrentState
+        {
+            get { return currentState; }
+            set
+            {
+                currentState = value;
+                RaisePropertyChanged(model => model.CurrentState);
+            }
+        }
 
         public RelayCommand OnRunAll { get; set; }
         public RelayCommand OnRunStepByStep { get; set; }
+
+        private void RunStepByStep()
+        {
+            if (!WordAccepted.HasValue)
+            {
+                int tapeSelectionIndex = CurrentTapeSelectionIndex = Math.Max(CurrentTapeSelectionIndex, 0);
+                string currentSymbol = CurrentTape[tapeSelectionIndex];
+                MachineTransition machineTransition =
+                    CurrentState.Transitions.FirstOrDefault(t => t.SymbolRead == currentSymbol);
+                if (machineTransition != null)
+                {
+                    CurrentTape[tapeSelectionIndex] = machineTransition.SymbolWrite;
+                    CurrentTapeSelectionIndex = tapeSelectionIndex + (int) machineTransition.Direction;
+                    CurrentState = machineTransition.TargetState;
+                    if (CurrentState.Equals(FinalState))
+                        WordAccepted = true;
+                }
+                else
+                {
+                    WordAccepted = false;
+                }
+            }
+        }
+
+        private void RunAll()
+        {
+            while (!WordAccepted.HasValue)
+                RunStepByStep();
+        }
 
         private static string TranstionToString(MachineState state, MachineTransition transition)
         {
             const string formato = "{0},{1},{2},{3},{4}";
 
-            var direction = transition.Direction == Direction.Right ? "D" : "E";
+            string direction = transition.Direction == Direction.Right ? "D" : "E";
             return string.Format(formato, state.Name, transition.TargetState.Name, transition.SymbolRead,
                 transition.SymbolWrite, direction);
         }
@@ -254,5 +270,24 @@ namespace TuringMachineWPF.ViewModel
                 RaisePropertyChanged(memberExpression.Member.Name);
             }
         }
+
+        #region Fields
+
+        private string[] alphabet;
+        private string[] auxAlphabet;
+        private MachineState currentState;
+        private ObservableCollection<string> currentTape;
+        private int currentTapeSelectionIndex;
+        private string emptySymbol;
+        private MachineState finalState;
+        private string initSymbol;
+        private MachineState initialState;
+        private IList<MachineState> states;
+        private string[] tape;
+        private string transitions;
+        private bool? wordAccepted;
+        private string wordAcceptedMessage;
+
+        #endregion
     }
 }

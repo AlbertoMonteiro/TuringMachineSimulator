@@ -24,5 +24,10 @@ namespace TuringMachineWPF
         {
             InitializeComponent();
         }
+
+        private void Window_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+        	txtEstados.Focus();
+        }
     }
 }

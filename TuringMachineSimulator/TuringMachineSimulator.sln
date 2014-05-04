@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TuringMachineSimulator", "TuringMachineSimulator\TuringMachineSimulator.csproj", "{386C3853-611F-4B92-A49C-F2A1EFC41DF1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TuringMachineWPF", "TuringMachineWPF\TuringMachineWPF.csproj", "{6CDD162D-A64E-4678-B08E-A06FF94F8B13}"
 EndProject
 Global
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{386C3853-611F-4B92-A49C-F2A1EFC41DF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{386C3853-611F-4B92-A49C-F2A1EFC41DF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{386C3853-611F-4B92-A49C-F2A1EFC41DF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{386C3853-611F-4B92-A49C-F2A1EFC41DF1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6CDD162D-A64E-4678-B08E-A06FF94F8B13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6CDD162D-A64E-4678-B08E-A06FF94F8B13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CDD162D-A64E-4678-B08E-A06FF94F8B13}.Release|Any CPU.ActiveCfg = Release|Any CPU

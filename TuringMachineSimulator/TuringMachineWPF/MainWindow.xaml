@@ -3,117 +3,117 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:galasoft="http://www.galasoft.ch/mvvmlight"
-    xmlns:Converters="clr-namespace:TuringMachineWPF.Converters"
     x:Class="TuringMachineWPF.MainWindow"
-    Title="Turing Machine Simulator" Height="390" Width="880" FontSize="18" Loaded="Window_Loaded" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="1d5d.png">
-	<Window.Resources>
-		<Converters:BolleanToSolidBrush x:Key="BolleanToSolidBrush"/>
-	</Window.Resources>
+    Title="Turing Machine Simulator" Height="390" Width="880" FontSize="18" Loaded="Window_Loaded"
+    SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="1d5d.png">
     <Window.DataContext>
         <Binding Path="Main" Source="{StaticResource Locator}" />
     </Window.DataContext>
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition />
-			<ColumnDefinition />
-			<ColumnDefinition />
-		</Grid.ColumnDefinitions>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition />
-		</Grid.RowDefinitions>
-		<GroupBox Grid.Column="0" Header="Estados">
-			<Grid>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-				<TextBlock Text="Estados" />
-				<TextBox x:Name="txtEstados" Grid.Row="1" Text="{Binding States, Converter={StaticResource StringToMachineStateConverter}}" />
-				<TextBlock Text="Estado Inicial" Grid.Row="2" />
-				<ComboBox Grid.Row="3" ItemsSource="{Binding States}" SelectedItem="{Binding InitialState}"
-					DisplayMemberPath="Name" />
-				<TextBlock Text="Estado Final" Grid.Row="4" />
-				<ComboBox Grid.Row="5" ItemsSource="{Binding States}" SelectedItem="{Binding FinalState}"
-					DisplayMemberPath="Name" />
-				<TextBlock Text="Fita" Grid.Row="6" />
-				<TextBox Grid.Row="7" Text="{Binding Tape, Converter={StaticResource StringToStringArray}}" />
-			</Grid>
-		</GroupBox>
-		<Grid Grid.Row="0" Grid.Column="1">
-			<Grid.RowDefinitions>
-				<RowDefinition />
-				<RowDefinition />
-			</Grid.RowDefinitions>
-			<GroupBox Grid.Row="0" Header="Simbolos">
-				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-					</Grid.RowDefinitions>
-					<TextBlock Text="Simbolo inicial" />
-					<TextBox Grid.Row="1" Text="{Binding InitSymbol}" />
-					<TextBlock Text="Simbolo final" Grid.Row="2" />
-					<TextBox Grid.Row="3" Text="{Binding EmptySymbol}" />
-				</Grid>
-			</GroupBox>
-			<GroupBox Grid.Row="1" Header="Alfabeto">
-				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition />
-						<RowDefinition Height="Auto" />
-						<RowDefinition />
-					</Grid.RowDefinitions>
-					<TextBlock Text="Alfabeto" />
-					<TextBox Grid.Row="1" Text="{Binding Alphabet, Converter={StaticResource StringToStringArray}}" />
-					<TextBlock Text="Alfabeto auxiliar" Grid.Row="2" />
-					<TextBox Grid.Row="3" Text="{Binding AuxAlphabet, Converter={StaticResource StringToStringArray}}" />
-				</Grid>
-			</GroupBox>
-		</Grid>
-		<GroupBox Grid.Row="0" Grid.Column="2" Header="Transições">
-			<TextBox Text="{Binding Transitions}" TextWrapping="Wrap" AcceptsReturn="True" MaxHeight="250" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
-		</GroupBox>
-		<TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding CurrentState.Name, StringFormat=Estado atual: \{0\}}"
-			VerticalAlignment="Center" HorizontalAlignment="Left" />
-		<StackPanel Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Orientation="Horizontal"
-			HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5">
-			<Button Content="Executar tudo" IsEnabled="{Binding Valid, Mode=OneWay}" Margin="5,0">
-				<i:Interaction.Triggers>
-					<i:EventTrigger EventName="Click">
-						<galasoft:EventToCommand Command="{Binding OnRunAll}" />
-					</i:EventTrigger>
-				</i:Interaction.Triggers>
-			</Button>
-			<Button Content="Executar passo a passo" IsEnabled="{Binding Valid, Mode=OneWay}" Margin="5,0">
-				<i:Interaction.Triggers>
-					<i:EventTrigger EventName="Click">
-						<galasoft:EventToCommand Command="{Binding OnRunStepByStep}" />
-					</i:EventTrigger>
-				</i:Interaction.Triggers>
-			</Button>
-		</StackPanel>
-		<ListBox Grid.Row="2" Grid.ColumnSpan="3" ItemsSource="{Binding CurrentTape}"
-			SelectedIndex="{Binding CurrentTapeSelectionIndex, Mode=TwoWay}" VerticalContentAlignment="Stretch">
-			<ListBox.ItemsPanel>
-				<ItemsPanelTemplate>
-					<WrapPanel IsItemsHost="True" />
-				</ItemsPanelTemplate>
-			</ListBox.ItemsPanel>
-		</ListBox>
-		<TextBlock Grid.Column="2" Grid.Row="1"
-			Text="{Binding WordAcceptedMessage, Mode=OneWay}"
-			VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,7"
-			Visibility="{Binding WordAccepted, Converter={StaticResource BooleanToVisible}}" Foreground="{Binding WordAccepted, Converter={StaticResource BolleanToSolidBrush}}" />
-	</Grid>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Column="0" Header="Estados">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Estados" />
+                <TextBox x:Name="txtEstados" Grid.Row="1"
+                         Text="{Binding States, Converter={StaticResource StringToMachineStateConverter}}" />
+                <TextBlock Text="Estado Inicial" Grid.Row="2" />
+                <ComboBox Grid.Row="3" ItemsSource="{Binding States}" SelectedItem="{Binding InitialState}"
+                          DisplayMemberPath="Name" />
+                <TextBlock Text="Estado Final" Grid.Row="4" />
+                <ComboBox Grid.Row="5" ItemsSource="{Binding States}" SelectedItem="{Binding FinalState}"
+                          DisplayMemberPath="Name" />
+                <TextBlock Text="Fita" Grid.Row="6" />
+                <TextBox Grid.Row="7" Text="{Binding Tape, Converter={StaticResource StringToStringArray}}" />
+            </Grid>
+        </GroupBox>
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <GroupBox Grid.Row="0" Header="Simbolos">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Simbolo inicial" />
+                    <TextBox Grid.Row="1" Text="{Binding InitSymbol}" />
+                    <TextBlock Text="Simbolo final" Grid.Row="2" />
+                    <TextBox Grid.Row="3" Text="{Binding EmptySymbol}" />
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Row="1" Header="Alfabeto">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Alfabeto" />
+                    <TextBox Grid.Row="1" Text="{Binding Alphabet, Converter={StaticResource StringToStringArray}}" />
+                    <TextBlock Text="Alfabeto auxiliar" Grid.Row="2" />
+                    <TextBox Grid.Row="3" Text="{Binding AuxAlphabet, Converter={StaticResource StringToStringArray}}" />
+                </Grid>
+            </GroupBox>
+        </Grid>
+        <GroupBox Grid.Row="0" Grid.Column="2" Header="Transições">
+            <TextBox Text="{Binding Transitions}" TextWrapping="Wrap" AcceptsReturn="True" MaxHeight="250"
+                     HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+        </GroupBox>
+        <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding CurrentState.Name, StringFormat=Estado atual: \{0\}}"
+                   VerticalAlignment="Center" HorizontalAlignment="Left" />
+        <StackPanel Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Orientation="Horizontal"
+                    HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5">
+            <Button Content="Executar tudo" IsEnabled="{Binding Valid, Mode=OneWay}" Margin="5,0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <galasoft:EventToCommand Command="{Binding OnRunAll}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+            <Button Content="Executar passo a passo" IsEnabled="{Binding Valid, Mode=OneWay}" Margin="5,0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <galasoft:EventToCommand Command="{Binding OnRunStepByStep}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+        </StackPanel>
+        <ListBox Grid.Row="2" Grid.ColumnSpan="3" ItemsSource="{Binding CurrentTape}"
+                 SelectedIndex="{Binding CurrentTapeSelectionIndex, Mode=TwoWay}" VerticalContentAlignment="Stretch">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel IsItemsHost="True" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+        <TextBlock Grid.Column="2" Grid.Row="1"
+                   Text="{Binding WordAcceptedMessage, Mode=OneWay}"
+                   VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,7"
+                   Visibility="{Binding WordAccepted, Converter={StaticResource BooleanToVisible}}"
+                   Foreground="{Binding WordAccepted, Converter={StaticResource BolleanToSolidBrush}}" />
+    </Grid>
 </Window>

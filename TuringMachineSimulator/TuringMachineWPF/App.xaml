@@ -8,5 +8,6 @@
         <converters:StringToMachineStateConverter x:Key="StringToMachineStateConverter" />
         <converters:StringToStringArray x:Key="StringToStringArray" />
         <converters:BooleanToVisible x:Key="BooleanToVisible" />
+        <converters:BolleanToSolidBrush x:Key="BolleanToSolidBrush"/>
     </Application.Resources>
 </Application>

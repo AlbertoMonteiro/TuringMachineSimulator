@@ -42,7 +42,7 @@
                 <ComboBox Grid.Row="5" ItemsSource="{Binding States}" SelectedItem="{Binding FinalState}"
                           DisplayMemberPath="Name" />
                 <TextBlock Text="Fita" Grid.Row="6" />
-                <TextBox Grid.Row="7" Text="{Binding Tape, Converter={StaticResource StringToStringArray}}" />
+                <TextBox x:Name="txtFita" Grid.Row="7" Text="{Binding Tape, Converter={StaticResource StringToStringArray}, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Style="{DynamicResource TextBoxInError}" />
             </Grid>
         </GroupBox>
         <Grid Grid.Row="0" Grid.Column="1">
@@ -73,7 +73,7 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <TextBlock Text="Alfabeto" />
-                    <TextBox Grid.Row="1" Text="{Binding Alphabet, Converter={StaticResource StringToStringArray}}" />
+                    <TextBox Grid.Row="1" Text="{Binding Alphabet, Converter={StaticResource StringToStringArray}, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" />
                     <TextBlock Text="Alfabeto auxiliar" Grid.Row="2" />
                     <TextBox Grid.Row="3" Text="{Binding AuxAlphabet, Converter={StaticResource StringToStringArray}}" />
                 </Grid>

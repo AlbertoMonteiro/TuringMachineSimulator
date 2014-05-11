@@ -10,9 +10,12 @@ namespace TuringMachineWPF.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        public MainViewModel()
+        private readonly IMessageBoxProvider messageBoxProvider;
+
+        public MainViewModel(IMessageBoxProvider messageBoxProvider)
         {
-            states = new List<MachineState> {new MachineState {Name = "q0"}};
+            this.messageBoxProvider = messageBoxProvider;
+            states = new List<MachineState> { new MachineState { Name = "q0" } };
             currentTape = new ObservableCollection<string>();
             initSymbol = "•";
             emptySymbol = "β";
@@ -21,9 +24,9 @@ namespace TuringMachineWPF.ViewModel
             //if (IsInDesignMode)
             {
                 // Code runs in Blend --> create design time data.
-                Tape = new[] {"a", "a", "a", "b", "b", "b"};
-                Alphabet = new[] {"a", "b"};
-                AuxAlphabet = new[] {"A", "B"};
+                Tape = new[] { "a", "a", "a", "b", "b", "b" };
+                Alphabet = new[] { "a", "b" };
+                AuxAlphabet = new[] { "A", "B" };
                 //CurrentTapeSelectionIndex = 1;
                 //CurrentTape = new ObservableCollection<string>(tape);
             }
@@ -93,11 +96,15 @@ namespace TuringMachineWPF.ViewModel
             set
             {
                 tape = value;
+                if (alphabet != null && !tape.All(alphabet.Contains))
+                {
+                    throw new Exception("A Fita contém elementos que não estão contidos no alfabeto.");
+                }
                 currentTape.Clear();
-                var strs = new List<string> {initSymbol};
+                var strs = new List<string> { initSymbol };
                 strs.AddRange(tape);
                 strs.AddRange(Enumerable.Range(1, 50).Select(i => emptySymbol));
-                foreach (string str in strs)
+                foreach (var str in strs)
                     currentTape.Add(str);
                 RaisePropertyChanged(t => t.Tape, t => t.Valid, t => t.CurrentTape);
             }
@@ -152,26 +159,42 @@ namespace TuringMachineWPF.ViewModel
             }
             set
             {
-                foreach (MachineState machineState in states)
+                var estadosNaoEncontrados = new List<string>();
+                foreach (var machineState in states)
                     machineState.Transitions.Clear();
 
-                string[] strings = value.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+                string[] strings = value.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string transition in strings)
                 {
                     string[] transitionParts = transition.Split(',');
 
                     if (transitionParts.Length != 5) continue;
 
-                    MachineState fromState = States.Single(s => s.Name == transitionParts[0]);
-                    MachineState toState = States.Single(s => s.Name == transitionParts[1]);
-                    fromState.Transitions.Add(new MachineTransition
+                    var fromState = States.SingleOrDefault(s => s.Name == transitionParts[0]);
+                    var toState = States.SingleOrDefault(s => s.Name == transitionParts[1]);
+                    if (fromState == null)
                     {
-                        TargetState = toState,
-                        SymbolRead = transitionParts[2],
-                        SymbolWrite = transitionParts[3],
-                        Direction = transitionParts[4] == "D" ? Direction.Right : Direction.Left
-                    });
+                        estadosNaoEncontrados.Add(transitionParts[0]);
+                        continue;
+                    }
+                    if (toState == null)
+                    {
+                        estadosNaoEncontrados.Add(transitionParts[1]);
+                        continue;
+                    }
+
+                    fromState.Transitions.Add(
+                        new MachineTransition
+                        {
+                            TargetState = toState,
+                            SymbolRead = transitionParts[2],
+                            SymbolWrite = transitionParts[3],
+                            Direction = transitionParts[4] == "D" ? Direction.Right : Direction.Left
+                        });
                 }
+
+                if (estadosNaoEncontrados.Any())
+                    messageBoxProvider.ShowMessage(string.Format("Não foi encontrado o(s) estado(s): {0}", string.Join(", ", estadosNaoEncontrados.Distinct())));
                 RaisePropertyChanged(t => t.AuxAlphabet, t => t.Valid);
             }
         }
@@ -225,12 +248,11 @@ namespace TuringMachineWPF.ViewModel
             {
                 int tapeSelectionIndex = CurrentTapeSelectionIndex = Math.Max(CurrentTapeSelectionIndex, 0);
                 string currentSymbol = CurrentTape[tapeSelectionIndex];
-                MachineTransition machineTransition =
-                    CurrentState.Transitions.FirstOrDefault(t => t.SymbolRead == currentSymbol);
+                MachineTransition machineTransition = CurrentState.Transitions.FirstOrDefault(t => t.SymbolRead == currentSymbol);
                 if (machineTransition != null)
                 {
                     CurrentTape[tapeSelectionIndex] = machineTransition.SymbolWrite;
-                    CurrentTapeSelectionIndex = tapeSelectionIndex + (int) machineTransition.Direction;
+                    CurrentTapeSelectionIndex = tapeSelectionIndex + (int)machineTransition.Direction;
                     CurrentState = machineTransition.TargetState;
                     if (CurrentState.Equals(FinalState))
                         WordAccepted = true;

@@ -15,23 +15,61 @@ namespace TuringMachineWPF.ViewModel
         public MainViewModel(IMessageBoxProvider messageBoxProvider)
         {
             this.messageBoxProvider = messageBoxProvider;
-            states = new List<MachineState> { new MachineState { Name = "q0" } };
+            states = new List<MachineState>
+            {
+                new MachineState { Name = "q0" },
+                new MachineState { Name = "q1" },
+                new MachineState { Name = "q2" },
+                new MachineState { Name = "q3" },
+                new MachineState { Name = "q4" },
+                new MachineState { Name = "q5" },
+                new MachineState { Name = "q6" },
+                new MachineState { Name = "q7" },
+                new MachineState { Name = "q8" },
+                new MachineState { Name = "q9" },
+                new MachineState { Name = "q10" },
+            };
             currentTape = new ObservableCollection<string>();
             initSymbol = "•";
             emptySymbol = "β";
-            finalState = initialState = states.First();
+            currentState=initialState = states.First();
+            finalState = states.Last();
 
             //if (IsInDesignMode)
             {
                 // Code runs in Blend --> create design time data.
-                Tape = new[] { "a", "a", "a", "b", "b", "b" };
-                Alphabet = new[] { "a", "b" };
-                AuxAlphabet = new[] { "A", "B" };
+                Tape = new[] { "a", "a", "a", "b", "b", "c", "c", "c", "d" };
+                Alphabet = new[] { "a", "b", "c", "d" };
+                AuxAlphabet = new[] { "A", "B", "C", "D" };
                 //CurrentTapeSelectionIndex = 1;
                 //CurrentTape = new ObservableCollection<string>(tape);
             }
             OnRunAll = new RelayCommand(RunAll);
             OnRunStepByStep = new RelayCommand(RunStepByStep);
+            OnClear = new RelayCommand(Clear);
+            OnReset = new RelayCommand(Reset);
+        }
+
+        private void Reset()
+        {
+            CurrentTapeSelectionIndex = 0;
+            Tape = tape;
+            CurrentState = InitialState;
+            WordAccepted = null;
+        }
+
+        private void Clear()
+        {
+            Transitions = string.Empty;
+            AuxAlphabet = null;
+            Alphabet = null;
+            Tape = null;
+            InitialState = null;
+            FinalState = null;
+            CurrentState = null;
+            States = new List<MachineState>();
+            CurrentTapeSelectionIndex = 0;
+            WordAccepted = null;
         }
 
         public bool? WordAccepted
@@ -102,7 +140,8 @@ namespace TuringMachineWPF.ViewModel
                 }
                 currentTape.Clear();
                 var strs = new List<string> { initSymbol };
-                strs.AddRange(tape);
+                if (tape != null) 
+                    strs.AddRange(tape);
                 strs.AddRange(Enumerable.Range(1, 50).Select(i => emptySymbol));
                 foreach (var str in strs)
                     currentTape.Add(str);
@@ -241,6 +280,8 @@ namespace TuringMachineWPF.ViewModel
 
         public RelayCommand OnRunAll { get; set; }
         public RelayCommand OnRunStepByStep { get; set; }
+        public RelayCommand OnClear { get; set; }
+        public RelayCommand OnReset { get; set; }
 
         private void RunStepByStep()
         {

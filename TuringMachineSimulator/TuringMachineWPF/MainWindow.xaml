@@ -34,7 +34,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="Estados" />
                 <TextBox x:Name="txtEstados" Grid.Row="1"
-                         Text="{Binding States, Converter={StaticResource StringToMachineStateConverter}}" />
+                         Text="{Binding States, Converter={StaticResource StringToMachineStateConverter}, Mode=TwoWay}" />
                 <TextBlock Text="Estado Inicial" Grid.Row="2" />
                 <ComboBox Grid.Row="3" ItemsSource="{Binding States}" SelectedItem="{Binding InitialState}"
                           DisplayMemberPath="Name" />
@@ -50,7 +50,7 @@
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <GroupBox Grid.Row="0" Header="Simbolos">
+            <GroupBox Grid.Row="0" Header="Símbolos">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -58,9 +58,9 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Simbolo inicial" />
+                    <TextBlock Text="Símbolo inicial" />
                     <TextBox Grid.Row="1" Text="{Binding InitSymbol}" />
-                    <TextBlock Text="Simbolo final" Grid.Row="2" />
+                    <TextBlock Text="Símbolo final" Grid.Row="2" />
                     <TextBox Grid.Row="3" Text="{Binding EmptySymbol}" />
                 </Grid>
             </GroupBox>
@@ -101,6 +101,21 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
+            <Button Content="Resetar fita" Margin="5,0">
+            	<i:Interaction.Triggers>
+            		<i:EventTrigger EventName="Click">
+            			<galasoft:EventToCommand Command="{Binding OnReset}"/>
+            		</i:EventTrigger>
+            	</i:Interaction.Triggers>
+            </Button>
+            <Button Content="Limpar" Width="75" Margin="5,0">
+            	<i:Interaction.Triggers>
+            		<i:EventTrigger EventName="Click">
+            			<galasoft:EventToCommand Command="{Binding OnClear}"/>
+            		</i:EventTrigger>
+            	</i:Interaction.Triggers>
+            </Button>
+
         </StackPanel>
         <ListBox Grid.Row="2" Grid.ColumnSpan="3" ItemsSource="{Binding CurrentTape}"
                  SelectedIndex="{Binding CurrentTapeSelectionIndex, Mode=TwoWay}" VerticalContentAlignment="Stretch">
